@@ -1,7 +1,3 @@
-// --- Backend Server (index.js) ---
-// This code has not changed, but is included for completeness.
-// The main fix is in the vercel.json file below.
-
 const express = require('express');
 const { Client } = require('@notionhq/client');
 const cors = require('cors');
@@ -147,6 +143,9 @@ const listener = app.listen(process.env.PORT || 3000, () => {
         { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" }
       ]
     }
+  ]
+}
+*/
   ]
 }
 */
