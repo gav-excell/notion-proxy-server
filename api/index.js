@@ -6,8 +6,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Note: The paths are now relative to the /api route
-app.post('/api/get-databases', async (req, res) => {
+// Note: The '/api' prefix is removed because Vercel handles it automatically.
+app.post('/get-databases', async (req, res) => {
     const { notionToken } = req.body;
     if (!notionToken) {
         return res.status(400).json({ error: 'Notion token is required.' });
@@ -26,7 +26,7 @@ app.post('/api/get-databases', async (req, res) => {
     }
 });
 
-app.post('/api/get-posts', async (req, res) => {
+app.post('/get-posts', async (req, res) => {
     const { notionToken, databaseId } = req.body;
     if (!notionToken || !databaseId) {
         return res.status(400).json({ error: 'Notion token and Database ID are required.' });
