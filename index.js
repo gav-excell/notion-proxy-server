@@ -3,8 +3,11 @@ const { Client } = require('@notionhq/client');
 const cors = require('cors');
 
 const app = express();
-app.use(express.json());
+
+// Use CORS middleware to automatically handle headers
 app.use(cors());
+app.use(express.json());
+
 
 app.get('/', (req, res) => {
     res.status(200).send('Notion API Proxy is running. Ready to receive POST requests.');
@@ -64,22 +67,5 @@ app.post('/api/get-posts', async (req, res) => {
     }
 });
 
-app.post('/api/update-post-date', async (req, res) => {
-    const { notionToken, pageId, newDate } = req.body;
-    if (!notionToken || !pageId || !newDate) {
-        return res.status(400).json({ error: 'Token, Page ID, and new date are required.' });
-    }
-    const notion = new Client({ auth: notionToken });
-    try {
-        await notion.pages.update({
-            page_id: pageId,
-            properties: { 'Scheduled Date': { date: { start: newDate } } },
-        });
-        res.json({ success: true, message: `Post ${pageId} updated to ${newDate}` });
-    } catch (error) {
-        console.error('Error updating post date:', error.body);
-        res.status(500).json({ error: 'Failed to update post date in Notion.' });
-    }
-});
-
+// Export the app for Vercel
 module.exports = app;
