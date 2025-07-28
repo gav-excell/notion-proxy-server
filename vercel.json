@@ -4,14 +4,12 @@ const cors = require('cors');
 
 const app = express();
 app.use(express.json());
-app.use(cors()); // Allow requests from any origin
+app.use(cors());
 
-// --- Root Endpoint ---
 app.get('/', (req, res) => {
     res.status(200).send('Notion API Proxy is running. Ready to receive POST requests.');
 });
 
-// --- API ENDPOINT 1: List Databases ---
 app.post('/api/get-databases', async (req, res) => {
     const { notionToken } = req.body;
     if (!notionToken) {
@@ -31,7 +29,6 @@ app.post('/api/get-databases', async (req, res) => {
     }
 });
 
-// --- API ENDPOINT 2: Get Posts from a Database ---
 app.post('/api/get-posts', async (req, res) => {
     const { notionToken, databaseId } = req.body;
     if (!notionToken || !databaseId) {
@@ -67,9 +64,7 @@ app.post('/api/get-posts', async (req, res) => {
     }
 });
 
-// --- API ENDPOINT 3: Update Post Date ---
 app.post('/api/update-post-date', async (req, res) => {
-    // This functionality is not used in the current frontend but is here for future use.
     const { notionToken, pageId, newDate } = req.body;
     if (!notionToken || !pageId || !newDate) {
         return res.status(400).json({ error: 'Token, Page ID, and new date are required.' });
@@ -87,15 +82,11 @@ app.post('/api/update-post-date', async (req, res) => {
     }
 });
 
-// Start the server
-const listener = app.listen(process.env.PORT || 3000, () => {
-    console.log('Your Notion proxy server is listening on port ' + listener.address().port);
+app.listen(process.env.PORT || 3000, () => {
+    console.log('Your Notion proxy server is listening.');
 });
 
-
-// --- package.json ---
-// This file has not changed.
-/*
+File 2: package.json
 {
   "name": "notion-proxy",
   "version": "1.0.0",
@@ -113,12 +104,8 @@ const listener = app.listen(process.env.PORT || 3000, () => {
     "node": "16.x"
   }
 }
-*/
 
-// --- vercel.json (THE IMPORTANT UPDATE) ---
-// This is the file you need to update. It adds the necessary
-// security headers to allow your frontend to talk to your backend.
-/*
+File 3: vercel.json
 {
   "version": 2,
   "builds": [
@@ -145,7 +132,4 @@ const listener = app.listen(process.env.PORT || 3000, () => {
     }
   ]
 }
-*/
-  ]
-}
-*/
+
